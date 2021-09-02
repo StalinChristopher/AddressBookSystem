@@ -23,4 +23,10 @@ public class AddressBook {
 	public void addContact(Contact contact) {
 		contactList.add(contact);
 	}
+	
+	public void displayContact() {
+		for(Contact contact : contactList) {
+			System.out.println(contact);
+		}
+	}
 }
