@@ -25,8 +25,16 @@ public class AddressBook {
 	}
 	
 	public void displayContact() {
+		if(contactList.size() == 0) {
+			System.out.println("No contacts in the address book");
+			return;
+		}
 		for(Contact contact : contactList) {
 			System.out.println(contact);
 		}
+	}
+	
+	public Set<Contact> getAddressBook(){
+		return contactList;
 	}
 }
