@@ -37,4 +37,8 @@ public class AddressBook {
 	public Set<Contact> getAddressBook(){
 		return contactList;
 	}
+	
+	public void deleteContact(Contact contact) {
+		contactList.remove(contact);
+	}
 }

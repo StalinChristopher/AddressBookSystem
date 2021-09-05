@@ -12,7 +12,7 @@ public class AddressBookMain {
 		Scanner in = new Scanner(System.in);
 		Contact contact = new Contact();
 		while(true) {
-			System.out.println("\nEnter your choice\n1.Add a new contact \n2.Display address book\n3.Edit a contact\n4.Exit\n");
+			System.out.println("\nEnter your choice\n1.Add a new contact \n2.Display address book\n3.Edit a contact\n4.Delete a contact\n5.Exit\n");
 			int choice = in.nextInt();
 			switch(choice) {
 			case 1:
@@ -51,12 +51,42 @@ public class AddressBookMain {
 				editContact();
 				break;
 			case 4:
+				deleteContact();
+				break;
+			case 5: 
 				return;
 		}
 		
 			
 			
 		}
+	}
+
+	private static void deleteContact() {
+		Contact contactToDelete = null;
+		Boolean found = false;
+		AddressBook addressBook = AddressBook.getInstance();
+		Set<Contact> contactList = addressBook.getAddressBook();
+		Scanner in = new Scanner(System.in);
+		System.out.println("Delete a contact");
+		System.out.println("---------------");
+		System.out.println("Enter the first name");
+		String firstName = in.nextLine();
+		System.out.println("Enter the last name");
+		String lastName = in.nextLine();
+		for(Contact contact : contactList) {
+			if(contact.getFirstName().equals(firstName)&&contact.getLastName().equals(lastName)) {
+				found = true;
+				contactToDelete = contact;
+				break;
+			}
+		}
+		if(!found) {
+			System.out.println("Contact not found");
+			return;
+		}
+		addressBook.deleteContact(contactToDelete);
+		System.out.println("Contact deleted");
 	}
 
 	private static void editContact() {
