@@ -178,5 +178,7 @@ public class AddressBookMain {
 		}
 		
 	}
+	
+	/* Already added logic to add multiple contacts in the address book */
 
 }
