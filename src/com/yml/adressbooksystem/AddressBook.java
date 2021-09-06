@@ -1,22 +1,19 @@
-	package com.yml.adressbooksystem;
+package com.yml.adressbooksystem;
 import java.util.*;
 import java.util.HashSet;
 import java.util.Set;
 
 public class AddressBook {
 	
-	private static AddressBook instance;
+//	private static AddressBook instance;
 	
-	private AddressBook() {
-		
-	}
 	
-	static AddressBook getInstance() {
-		if(instance == null) {
-			instance = new AddressBook();
-		}
-		return instance;
-	}
+//	static AddressBook getInstance() {
+//		if(instance == null) {
+//			instance = new AddressBook();
+//		}
+//		return instance;
+//	}
 	
 	private List<Contact> contactList = new ArrayList<Contact>();
 	
