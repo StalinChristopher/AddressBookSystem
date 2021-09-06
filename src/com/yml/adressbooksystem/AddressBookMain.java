@@ -4,14 +4,17 @@ import java.math.BigInteger;
 import java.util.Scanner;
 
 public class AddressBookMain {
-
+	static Scanner in = new Scanner(System.in);
+	static Map<String,AddressBook> addressBookMap = new HashMap<String,AddressBook>();
+	static AddressBook addressBook = null;
+	
 	public static void main(String[] args) {
 		System.out.println("Welcome to Address Book Program");
-		Scanner in = new Scanner(System.in);
-		AddressBook addressBook = AddressBook.getInstance();
+		selectAddressBook();
 		while(true) {
-			System.out.println("\nEnter your choice\n1.Add a new contact \n2.Display address book\n3.Edit a contact\n4.Delete a contact\n5.Exit\n");
+			System.out.println("\nEnter your choice\n1.Add a new contact \n2.Display address book\n3.Edit a contact\n4.Delete a contact\n5.Choose a different addressbook\n6.Exit\n");
 			int choice = in.nextInt();
+			in.nextLine();
 			switch(choice) {
 			case 1:
 				createContact();
@@ -27,17 +30,50 @@ public class AddressBookMain {
 				deleteContact();
 				break;
 			case 5: 
+				selectAddressBook();
+				break;
+			case 6:
 				return;
+			default:
+				System.out.println("Invalid choice");
+				break;
+			}
 		}
-		
-			
-			
+	}
+	
+	private static void selectAddressBook() {
+		System.out.println("Select the addressbook\nEnter your choice\n1.Add a new addressbook \n2.Choose an existing addressbook");
+		int choice = in.nextInt();
+		in.nextLine();
+		if(choice == 1) {
+			System.out.println("Enter a name for your addressbook");
+			String name = in.nextLine();
+			if(addressBookMap.get(name) != null) {
+				System.out.println("Addressbook with the same name exists ");
+				return;
+			}
+			AddressBook newAddressBook = new AddressBook();
+			addressBookMap.put(name,newAddressBook);
+			addressBook = addressBookMap.get(name);
+			System.out.println("Address book "+name+" has been created and is set as the current addressbook");
+		}
+		else if(choice == 2) {
+			if(addressBookMap.size() == 0) {
+				System.out.println("\nNo addressbook is present. Please create a new addressbook\n");
+				selectAddressBook();
+				return;
+			}
+			int count =1;
+			for(String addressBookName : addressBookMap.keySet()) {
+				System.out.println((count++)+". "+addressBookName);
+			}
+			System.out.println("Enter the name of desired addressbook ");
+			String addressBookName = in.nextLine();
+			addressBook = addressBookMap.get(addressBookName);
 		}
 	}
 
 	private static void createContact() {
-		AddressBook addressBook = AddressBook.getInstance();
-		Scanner in = new Scanner(System.in);
 		Contact contact = new Contact();
 		System.out.println("Enter the first name");
 		String firstName = in.nextLine();
@@ -77,9 +113,7 @@ public class AddressBookMain {
 	private static void deleteContact() {
 		Contact contactToDelete = null;
 		Boolean found = false;
-		AddressBook addressBook = AddressBook.getInstance();
 		List<Contact> contactList = addressBook.getAddressBook();
-		Scanner in = new Scanner(System.in);
 		System.out.println("Delete a contact");
 		System.out.println("---------------");
 		System.out.println("Enter the first name");
@@ -104,12 +138,11 @@ public class AddressBookMain {
 	private static void editContact() {
 		Contact contactToEdit = null;
 		Boolean found = false;
-		AddressBook addressBook  = AddressBook.getInstance();
 		List<Contact> contactList = addressBook.getAddressBook();
-		Scanner in = new Scanner(System.in);
 		System.out.println("Edit a contact");
 		System.out.println("----------------");
 		System.out.println("Enter the first name");
+		in.nextLine();
 		String firstName = in.nextLine();
 		System.out.println("Enter the last name");
 		String lastName = in.nextLine();
