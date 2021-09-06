@@ -1,5 +1,5 @@
-package com.yml.adressbooksystem;
-
+	package com.yml.adressbooksystem;
+import java.util.*;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -18,7 +18,7 @@ public class AddressBook {
 		return instance;
 	}
 	
-	private Set<Contact> contactList = new HashSet<Contact>();
+	private List<Contact> contactList = new ArrayList<Contact>();
 	
 	public void addContact(Contact contact) {
 		contactList.add(contact);
@@ -34,7 +34,7 @@ public class AddressBook {
 		}
 	}
 	
-	public Set<Contact> getAddressBook(){
+	public List<Contact> getAddressBook(){
 		return contactList;
 	}
 	
