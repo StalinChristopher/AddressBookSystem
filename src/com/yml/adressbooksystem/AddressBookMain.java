@@ -59,28 +59,34 @@ public class AddressBookMain {
 			case 1: 
 				System.out.println("Enter the name of the state");
 				String inputState = in.nextLine();
+				int stateCount = 0;
 				for(AddressBook addressBook : addressBookMap.values()) {
 					List<Contact> contactState = addressBook.getAddressBook().stream().filter(c->{
 						return c.getState().equals(inputState);
 					}).collect(Collectors.toList());
 					
+					stateCount += contactState.size();
+					
 					for(Contact contact : contactState) {
 						System.out.println(contact);
 					}
 				}
+				System.out.println("\nNo of records : "+stateCount);
 				break;
 			case 2:
 				System.out.println("Enter the name of the city");
 				String inputCity = in.nextLine();
+				int cityCount = 0;
 				for(AddressBook addressBook : addressBookMap.values()) {
 					List<Contact> contactCity = addressBook.getAddressBook().stream().filter(c->{
 						return c.getCity().equals(inputCity);
 					}).collect(Collectors.toList());
-					
+					cityCount += contactCity.size();
 					for(Contact contact : contactCity) {
 						System.out.println(contact);
 					}
 				}
+				System.out.println("\nNumber of records"+cityCount);
 				break;
 		}
 		
@@ -318,6 +324,7 @@ public class AddressBookMain {
 
                 for (Map.Entry<String, List<Contact>> element : stateMap.entrySet()) {
                     System.out.println("State: " + element.getKey());
+                    System.out.println("Number of records :"+element.getValue().size());
                     for (Contact contact : element.getValue()) {
                         System.out.println(contact);
                         System.out.println();
@@ -333,6 +340,7 @@ public class AddressBookMain {
 
                 for (Map.Entry<String, List<Contact>> element : cityMap.entrySet()) {
                     System.out.println("City: " + element.getKey());
+                    System.out.println("Number of records :"+element.getValue().size());
                     for (Contact contact : element.getValue()) {
                         System.out.println(contact);
                         System.out.println();
