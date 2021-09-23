@@ -8,12 +8,14 @@ public class AddressBookMain {
 	static Scanner in = new Scanner(System.in);
 	static Map<String,AddressBook> addressBookMap = new HashMap<String,AddressBook>();
 	static AddressBook addressBook = null;
+	static Map<String, List<Contact>> stateMap = new HashMap<String, List<Contact>>();
+	static Map<String, List<Contact>> cityMap = new HashMap<String, List<Contact>>();
 	
 	public static void main(String[] args) {
 		System.out.println("Welcome to Address Book Program");
 		selectAddressBook();
 		while(true) {
-			System.out.println("\nEnter your choice\n1.Add a new contact \n2.Display address book\n3.Edit a contact\n4.Delete a contact\n5.Choose a different addressbook\n6.Search contact\n7.Exit\n");
+			System.out.println("\nEnter your choice\n1.Add a new contact \n2.Display address book\n3.Edit a contact\n4.Delete a contact\n5.Choose a different addressbook\n6.Search contact\n7.View contacts by state/city\n8.Exit\n");
 			int choice = in.nextInt();
 			in.nextLine();
 			switch(choice) {
@@ -36,6 +38,8 @@ public class AddressBookMain {
 			case 6:
 				searchContact();
 			case 7:
+				viewBy();
+			case 8:
 				return;
 			default:
 				System.out.println("Invalid choice");
@@ -271,5 +275,73 @@ public class AddressBookMain {
 	}
 	
 	/* Already added logic to add multiple contacts in the address book */
+	
+	public static void addToMap(String mapName, Contact contact) {
+        if(mapName == "CITY"){
+            List<Contact> contacts = cityMap.get(contact.getCity());
+            if (contacts == null) {
+                List<Contact> contacts2 = new ArrayList<>();
+                contacts2.add(contact);
+                cityMap.put(contact.getCity(), contacts2);
+            }
+            else {
+                contacts.add(contact);
+                cityMap.put(contact.getCity(), contacts);
+            }
+        }
+        else{
+            List<Contact> contacts = stateMap.get(contact.getState());
+            if (contacts == null) {
+                List<Contact> contacts2 = new ArrayList<>();
+                contacts2.add(contact);
+                stateMap.put(contact.getState(), contacts2);
+            }
+            else {
+                contacts.add(contact);
+                stateMap.put(contact.getState(), contacts);
+            }
+        }
+    }
+	
+	private static void viewBy() {
+        Scanner in = new Scanner(System.in);
+        System.out.println("View By \n1. State\n2. City");
+        int choice = in.nextInt();
+        in.nextLine();
+
+        switch (choice) {
+            case 1:
+                stateMap.clear();
+                addressBook.getAddressBook().stream().forEach(c -> {
+                    addToMap("STATE", c);
+                });
+
+                for (Map.Entry<String, List<Contact>> element : stateMap.entrySet()) {
+                    System.out.println("State: " + element.getKey());
+                    for (Contact contact : element.getValue()) {
+                        System.out.println(contact);
+                        System.out.println();
+                    }
+                    System.out.println();
+                }
+                break;
+            case 2:
+                cityMap.clear();
+                addressBook.getAddressBook().stream().forEach(c -> {
+                    addToMap("CITY", c);
+                });
+
+                for (Map.Entry<String, List<Contact>> element : cityMap.entrySet()) {
+                    System.out.println("City: " + element.getKey());
+                    for (Contact contact : element.getValue()) {
+                        System.out.println(contact);
+                        System.out.println();
+                    }
+                    System.out.println();
+                }
+                break;
+        }
+    }
+
 
 }
