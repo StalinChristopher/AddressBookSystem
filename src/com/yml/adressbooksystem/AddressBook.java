@@ -43,6 +43,7 @@ public class AddressBook {
 	 * Method to display the contacts from the contactsList
 	 */
 	public void displayContact() {
+		Collections.sort(contactList);
 		if(contactList.size() == 0) {
 			System.out.println("No contacts in the address book");
 			return;
