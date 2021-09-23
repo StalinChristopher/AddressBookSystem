@@ -79,13 +79,6 @@ public class AddressBookMain {
 		String firstName = in.nextLine();
 		System.out.println("Enter the last name");
 		String lastName = in.nextLine();
-		List<Contact> contactList = addressBook.getAddressBook();
-		for(Contact item : contactList) {
-			if(item.getFirstName().equals(firstName)&&item.getLastName().equals(lastName)) {
-				System.out.println("\nContact with same name already exists");
-				return;
-			}
-		}
 		contact.setFirstName(firstName);
 		contact.setLastName(lastName);
 		System.out.println("Enter the address");

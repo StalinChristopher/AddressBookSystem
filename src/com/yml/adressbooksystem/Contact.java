@@ -77,6 +77,9 @@ public class Contact {
 		this.phone = phone;
 	}
 
+	
+	//Already overridden hashCode and equals method
+	
 	@Override
 	public int hashCode() {
 		return Objects.hash(firstName, lastName);
