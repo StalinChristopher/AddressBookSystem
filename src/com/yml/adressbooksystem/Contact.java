@@ -7,7 +7,7 @@ import java.util.Objects;
  * Class which has all the fields of the contact, each instance of this class is a unique contact. It also contains method
  * to check if two instances are equal
  */
-public class Contact {
+public class Contact implements Comparable<Contact>{
 	
 	private String firstName;
 	private String lastName;
@@ -106,5 +106,10 @@ public class Contact {
 	public String toString() {
 		return "Contact [firstName=" + firstName + ", lastName=" + lastName + ", address=" + address + ", city=" + city
 				+ ", state=" + state + ", zip=" + zip + ", email=" + email + ", phone=" + phone + "]";
+	}
+
+	@Override
+	public int compareTo(Contact o) {
+		return (this.firstName + this.lastName).compareTo(o.getFirstName()+o.getLastName());
 	}
 }
