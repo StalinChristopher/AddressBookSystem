@@ -2,6 +2,11 @@ package com.yml.adressbooksystem;
 import java.math.BigInteger;
 import java.util.Objects;
 
+/**
+ * @author Stalin Christopher
+ * Class which has all the fields of the contact, each instance of this class is a unique contact. It also contains method
+ * to check if two instances are equal
+ */
 public class Contact {
 	
 	private String firstName;

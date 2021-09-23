@@ -2,6 +2,7 @@ package com.yml.adressbooksystem;
 import java.util.*;
 import java.math.BigInteger;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class AddressBookMain {
 	static Scanner in = new Scanner(System.in);
@@ -12,7 +13,7 @@ public class AddressBookMain {
 		System.out.println("Welcome to Address Book Program");
 		selectAddressBook();
 		while(true) {
-			System.out.println("\nEnter your choice\n1.Add a new contact \n2.Display address book\n3.Edit a contact\n4.Delete a contact\n5.Choose a different addressbook\n6.Exit\n");
+			System.out.println("\nEnter your choice\n1.Add a new contact \n2.Display address book\n3.Edit a contact\n4.Delete a contact\n5.Choose a different addressbook\n6.Search contact\n7.Exit\n");
 			int choice = in.nextInt();
 			in.nextLine();
 			switch(choice) {
@@ -33,6 +34,8 @@ public class AddressBookMain {
 				selectAddressBook();
 				break;
 			case 6:
+				searchContact();
+			case 7:
 				return;
 			default:
 				System.out.println("Invalid choice");
@@ -41,6 +44,47 @@ public class AddressBookMain {
 		}
 	}
 	
+	/**
+	 * Method to search contact based on either state or city
+	 */
+	private static void searchContact() {
+		System.out.println("Search a contact by \n1. State\n2. City\n");
+		int inputChoice = in.nextInt();
+		in.nextLine();
+		switch(inputChoice) {
+			case 1: 
+				System.out.println("Enter the name of the state");
+				String inputState = in.nextLine();
+				for(AddressBook addressBook : addressBookMap.values()) {
+					List<Contact> contactState = addressBook.getAddressBook().stream().filter(c->{
+						return c.getState().equals(inputState);
+					}).collect(Collectors.toList());
+					
+					for(Contact contact : contactState) {
+						System.out.println(contact);
+					}
+				}
+				break;
+			case 2:
+				System.out.println("Enter the name of the city");
+				String inputCity = in.nextLine();
+				for(AddressBook addressBook : addressBookMap.values()) {
+					List<Contact> contactCity = addressBook.getAddressBook().stream().filter(c->{
+						return c.getCity().equals(inputCity);
+					}).collect(Collectors.toList());
+					
+					for(Contact contact : contactCity) {
+						System.out.println(contact);
+					}
+				}
+				break;
+		}
+		
+	}
+
+	/**
+	 * Method to choose existing addressBook or create a new addressBook
+	 */
 	private static void selectAddressBook() {
 		System.out.println("Select the addressbook\nEnter your choice\n1.Add a new addressbook \n2.Choose an existing addressbook");
 		int choice = in.nextInt();
@@ -73,6 +117,9 @@ public class AddressBookMain {
 		}
 	}
 
+	/**
+	 * Method to create  a new contact, duplicate contacts are not allowed
+	 */
 	private static void createContact() {
 		Contact contact = new Contact();
 		System.out.println("Enter the first name");
@@ -103,6 +150,9 @@ public class AddressBookMain {
 		
 	}
 
+	/**
+	 * Method to delete a contact form the addressBook
+	 */
 	private static void deleteContact() {
 		Contact contactToDelete = null;
 		Boolean found = false;
@@ -128,6 +178,9 @@ public class AddressBookMain {
 		System.out.println("Contact deleted");
 	}
 
+	/**
+	 * Method to edit fields of a contact from the addressBook
+	 */
 	private static void editContact() {
 		Contact contactToEdit = null;
 		Boolean found = false;

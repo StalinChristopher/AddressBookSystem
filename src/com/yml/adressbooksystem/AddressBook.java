@@ -4,12 +4,15 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+/**
+ * @author Stalin Christopher
+ * Class which contains the list of contacts in a address book, each instance of this class represents a unique addressBook
+ */
 public class AddressBook {
 	
+	/*
 	private static AddressBook instance;
-	
-	
-	/*static AddressBook getInstance() {
+	static AddressBook getInstance() {
 	if(instance == null) {
 		instance = new AddressBook();
 	}
@@ -18,6 +21,10 @@ public class AddressBook {
 	*/
 	private List<Contact> contactList = new ArrayList<Contact>();
 	
+	/**
+	 * @param contact
+	 * Method to create a new contact add it to the contactList
+	 */
 	public void addContact(Contact contact) {
 		List<Contact> duplicateContactList = contactList.stream().filter(c->{
 			if(c.equals(contact)){
@@ -32,6 +39,9 @@ public class AddressBook {
 		}
 	}
 	
+	/**
+	 * Method to display the contacts from the contactsList
+	 */
 	public void displayContact() {
 		if(contactList.size() == 0) {
 			System.out.println("No contacts in the address book");
@@ -46,6 +56,10 @@ public class AddressBook {
 		return contactList;
 	}
 	
+	/**
+	 * @param contact
+	 * Method to delete the contact from the contactList
+	 */
 	public void deleteContact(Contact contact) {
 		contactList.remove(contact);
 	}
