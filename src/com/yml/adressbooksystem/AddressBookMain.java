@@ -1,5 +1,6 @@
 package com.yml.adressbooksystem;
 import java.util.*;
+import java.io.IOException;
 import java.math.BigInteger;
 import java.util.Scanner;
 import java.util.stream.Collectors;
@@ -10,12 +11,12 @@ public class AddressBookMain {
 	static AddressBook addressBook = null;
 	static Map<String, List<Contact>> stateMap = new HashMap<String, List<Contact>>();
 	static Map<String, List<Contact>> cityMap = new HashMap<String, List<Contact>>();
-	
-	public static void main(String[] args) {
+	static String currentBookName;
+	public static void main(String[] args) throws IOException {
 		System.out.println("Welcome to Address Book Program");
 		selectAddressBook();
 		while(true) {
-			System.out.println("\nEnter your choice\n1.Add a new contact \n2.Display address book\n3.Edit a contact\n4.Delete a contact\n5.Choose a different addressbook\n6.Search contact\n7.View contacts by state/city\n8.Exit\n");
+			System.out.println("\nEnter your choice\n1.Add a new contact \n2.Display address book\n3.Edit a contact\n4.Delete a contact\n5.Choose a different addressbook\n6.Search contact\n7.View contacts by state/city\n8.Save to file\n9.Exit\n");
 			int choice = in.nextInt();
 			in.nextLine();
 			switch(choice) {
@@ -40,6 +41,8 @@ public class AddressBookMain {
 			case 7:
 				viewBy();
 			case 8:
+				addressBook.saveToFile(currentBookName);
+			case 9:
 				return;
 			default:
 				System.out.println("Invalid choice");
@@ -108,6 +111,7 @@ public class AddressBookMain {
 			}
 			AddressBook newAddressBook = new AddressBook();
 			addressBookMap.put(name,newAddressBook);
+			currentBookName = name;
 			addressBook = addressBookMap.get(name);
 			System.out.println("Address book "+name+" has been created and is set as the current addressbook");
 		}
@@ -123,7 +127,13 @@ public class AddressBookMain {
 			}
 			System.out.println("Enter the name of desired addressbook ");
 			String addressBookName = in.nextLine();
+			if (addressBookMap.get(addressBookName) == null) {
+                System.out.println("Address Book "+addressBookName+" does not exist");
+                selectAddressBook();
+                return;
+            }
 			addressBook = addressBookMap.get(addressBookName);
+			currentBookName = addressBookName;
 		}
 	}
 
