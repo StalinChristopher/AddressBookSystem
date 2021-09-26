@@ -1,4 +1,7 @@
 package com.yml.adressbooksystem;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -64,4 +67,16 @@ public class AddressBook {
 	public void deleteContact(Contact contact) {
 		contactList.remove(contact);
 	}
+	
+	public void saveToFile(String fileName) throws IOException {
+        File file = new File("data/" + fileName + ".txt");
+        file.createNewFile();
+        FileWriter fileWriter = new FileWriter(file);
+
+        for (Contact contact : contactList) {
+            fileWriter.write(contact+"\n");
+        }
+        fileWriter.flush();
+        fileWriter.close();
+    }
 }
