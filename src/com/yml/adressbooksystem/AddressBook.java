@@ -1,11 +1,20 @@
 package com.yml.adressbooksystem;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import com.opencsv.CSVReader;
+import com.opencsv.CSVReader.*;
+
+import com.opencsv.CSVReaderBuilder.*;
+import com.opencsv.CSVWriter;
+import com.opencsv.exceptions.CsvException;
 
 /**
  * @author Stalin Christopher
@@ -79,4 +88,57 @@ public class AddressBook {
         fileWriter.flush();
         fileWriter.close();
     }
+	
+	/**
+	 * @param fileName
+	 * 
+	 * Method to write contacts into csv file
+	 */
+	public void writeCsv(String fileName) {
+		File file = new File("data/"+ fileName+ "csv.csv");
+		
+		try {
+			file.createNewFile();
+			CSVWriter csvWriter = new CSVWriter(new FileWriter(file), ',', CSVWriter.NO_QUOTE_CHARACTER, CSVWriter.DEFAULT_ESCAPE_CHARACTER,
+					CSVWriter.DEFAULT_LINE_END);
+			String[] headerLine = {"firstName", "lastName", "address", "city", "state", "zip", "email", "phone",};
+			csvWriter.writeNext(headerLine);
+			for(Contact contact : contactList) {
+				String[] info = {contact.getFirstName(),contact.getLastName(),contact.getAddress(),contact.getCity(),
+						contact.getState(), Integer.toString(contact.getZip()), contact.getEmail(), contact.getPhone().toString()};
+				csvWriter.writeNext(info);
+			}
+			csvWriter.close();
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Method to read contacts into csv file
+	 */
+	public void readCsv() {
+		Scanner scanner = new Scanner(System.in);
+		System.out.println("Enter the name of the csv file to be read");
+		String fileName = scanner.nextLine();
+		File file = new File("data/"+fileName+".csv");
+		if(!file.exists()) {
+			System.out.println("File doesnot exist");
+			return;
+		}
+		try {
+			CSVReader reader = new CSVReader(new FileReader(file));
+			List<String[]> contactsData = reader.readAll();
+			for( String[] contact : contactsData) {
+				for(String field : contact) {
+					System.out.print(field+ ", ");
+				}
+				System.out.println();
+			}
+			reader.close();
+		} catch (IOException | CsvException e) {
+			e.printStackTrace();
+		}
+	}
 }
