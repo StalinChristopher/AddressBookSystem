@@ -16,7 +16,7 @@ public class AddressBookMain {
 		System.out.println("Welcome to Address Book Program");
 		selectAddressBook();
 		while(true) {
-			System.out.println("\nEnter your choice\n1.Add a new contact \n2.Display address book\n3.Edit a contact\n4.Delete a contact\n5.Choose a different addressbook\n6.Search contact\n7.View contacts by state/city\n8.Save to file\n9.Exit\n");
+			System.out.println("\nEnter your choice\n1.Add a new contact \n2.Display address book\n3.Edit a contact\n4.Delete a contact\n5.Choose a different addressbook\n6.Search contact\n7.View contacts by state/city\n8.Save to file\n9.Save as csv file\n10.Read csv File\n11.Exit\n");
 			int choice = in.nextInt();
 			in.nextLine();
 			switch(choice) {
@@ -38,11 +38,20 @@ public class AddressBookMain {
 				break;
 			case 6:
 				searchContact();
+				break;
 			case 7:
 				viewBy();
+				break;
 			case 8:
 				addressBook.saveToFile(currentBookName);
+				break;
 			case 9:
+				addressBook.writeCsv(currentBookName);
+				break;
+			case 10:
+				addressBook.readCsv();
+				break;
+			case 11:
 				return;
 			default:
 				System.out.println("Invalid choice");
