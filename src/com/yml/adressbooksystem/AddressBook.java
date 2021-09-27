@@ -9,6 +9,8 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import com.google.gson.Gson;
+import com.google.gson.stream.JsonReader;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReader.*;
 
@@ -138,6 +140,48 @@ public class AddressBook {
 			}
 			reader.close();
 		} catch (IOException | CsvException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * @param fileName
+	 * Method to write addressBook into a Json file
+	 */
+	public void writeJson(String fileName)  {
+		File file = new File("data/"+ fileName+ "json.json");
+		try {
+			file.createNewFile();
+			Gson gson = new Gson();
+			FileWriter fileWriter = new FileWriter(file);
+			String jsonString = gson.toJson(contactList);
+			fileWriter.write(jsonString);
+			fileWriter.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}	
+	}
+	
+	/**
+	 * Method to read a given json file and print it into console
+	 */
+	public void readJson() {
+		Scanner in = new Scanner(System.in);
+		System.out.println("Enter the json file to be read");
+		String fileName = in.nextLine();
+		File file = new File("data/"+fileName+".json");
+		if(!file.exists()) {
+			System.out.println("File doesnot exist");
+			return;
+		}
+		
+		try {
+			FileReader reader = new FileReader(file);
+			Gson gson = new Gson();
+			JsonReader jsonReader = new JsonReader(reader);
+			List<Contact> contactsJson = gson.fromJson(jsonReader, List.class);
+			System.out.println(contactsJson);
+		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
 	}
